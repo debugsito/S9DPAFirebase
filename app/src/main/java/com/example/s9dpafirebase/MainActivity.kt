@@ -15,8 +15,9 @@ class MainActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val tvCurso: TextView = findViewById(R.id.tvCurso)
         val tvNota: TextView = findViewById(R.id.tvNota)
+        val tvUID: TextView = findViewById(R.id.tvUID)
 
-        db.collection("courses")
+        db.collection("users")
             .addSnapshotListener{ snapshots, e ->
                 if(e!=null){
                     Log.w("Firebase","listen:error", e)
@@ -26,12 +27,14 @@ class MainActivity : AppCompatActivity() {
                     when(dc.type){
                         DocumentChange.Type.ADDED -> {
                             Log.d("Firebase","data: "+ dc.document.data)
-                            tvCurso.text = dc.document.data["description"].toString()
-                            tvNota.text = dc.document.data["score"].toString()
+                            tvCurso.text = dc.document.data["email"].toString()
+                            tvNota.text = dc.document.data["fullname"].toString()
+                            tvUID.text = dc.document.data["uid"].toString()
                         }
                         DocumentChange.Type.MODIFIED -> {
-                            tvCurso.text = dc.document.data["description"].toString()
-                            tvNota.text = dc.document.data["score"].toString()
+                            tvCurso.text = dc.document.data["email"].toString()
+                            tvNota.text = dc.document.data["fullname"].toString()
+                            tvUID.text = dc.document.data["uid"].toString()
                         }
                         DocumentChange.Type.REMOVED -> Log.d("Firebase","Removed data: "+ dc.document.data)
                     }
